@@ -1,0 +1,147 @@
+<html>
+    <head>
+        <style type="text/css"> 
+        * {background-color: rgb(230, 230, 115); font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;}
+        h1 {text-align: center; color: rgb(218, 33, 33); padding-top: 13px; font-size: 50px;}
+        .menu-box { width: 400px; height: 250px; border: 3px solid black; margin: 0 auto; padding: 20px; background-color: rgb(218, 33, 33);}
+        .menu-box h2 {text-align: center; color: rgb(230, 230, 115); background-color: rgb(218, 33, 33);}
+        .menu-box p {text-align: left; color: black; font-size: 18px; justify-content: space-between; display: flex; background-color: rgb(218, 33, 33);}
+        .menu-box p strong {background-color: rgb(218, 33, 33);}
+        .menu-box p span {background-color: rgb(218, 33, 33);}
+        .button {text-align: center; display: block; margin: 0 auto; background-color: rgb(230, 230, 115); height: 30px; width: auto;}
+        .discount p {text-align: left; color: black; font-size: 12px; font-style: italic; background-color: rgb(218, 33, 33); padding-bottom: 7px;}
+
+        .total-box { width: 400px; height: 325px; border: 3px solid black; margin: 0 auto; padding: 20px; background-color: rgb(218, 33, 33);}
+        .total-box h2 {text-align: center; color: rgb(230, 230, 115); background-color: rgb(218, 33, 33);}
+        .total-box p {text-align: center; color: black; background-color: rgb(218, 33, 33);}
+
+        .message {color: black; text-align: center; font-size: 20px;}
+
+        </style>
+        <title>Joe's Hotdogs</title>
+    </head>
+    <body>
+        <h1> Joe's Hotdog Stand </h1>
+        </br>
+        <div class="menu-box">
+        <h2> MENU </h2>
+        <p> <strong> Hotdog </strong> <span> $3.75</span> </p>
+        <p> <strong> French Fries </strong> <span> $3</span> </p>
+        <p> <strong> Soda </strong> <span> $2.50 </span> </p>
+        <div class="discount">
+            <p> (10% off on a total order of $25 or more before tax!) </p>
+        </div>
+        <input class= 'button' type='button' value='Order Here' id='button1'>
+        </div>
+    </br> </br> </br>
+        <div class="total-box">
+            <h2> TOTAL </h2>
+            <p id = "hdprice"></p>
+            <p id = "friesprice"></p>
+            <p id = "drinksprice"></p>
+            <p id = "text"></p>
+            <p id = "discount"></p>
+            <p id = "total with discount"></p>
+            <p id = "tax"></p>
+            <p id = "total"></p>
+        </div>
+
+        <div class="message">
+            <h3> Thank you for ordering from Joe's Hotdog Stand, come again! </h3>
+        </div>
+
+        <script>
+            // using javascript to associate an event with an event handler
+            window.onload= function() {
+                    b1 = document.getElementById('button1')
+                    b1.onclick = button1Pressed;
+            }
+
+             // ADD function contract
+             function formatcurrency(number) {
+                let round = Math.round(number * 100)/100; // to get 2 decimal places
+
+                // if round is an integer, add ".00"
+                if (round % 1 == 0) {
+                    return round + ".00";
+                }
+
+                // if round has one decimal place, add "0"
+                if ((round * 10) % 1 == 0) {
+                    return round + "0";
+                }
+                return round;
+            }
+
+            // add function contract
+            function button1Pressed()
+            {
+            var price_hd = 3.75;
+            var price_fries = 3;
+            var price_sodas = 2.5;
+
+            var numDogs = prompt("How many hotdogs do you want?");
+            var numFries = prompt("How many fries do you want?");
+            var numSoda = prompt("How many sodas do you want?");
+            
+            // print statement for total amount of hotdogs and total price
+            if (numDogs == null || numDogs == "") {
+                document.getElementById("hdprice").innerHTML = 0 + " Hotdogs: $" + 0;
+            } else if (numDogs == 1) {
+                var hotdog_total = price_hd * numDogs
+                document.getElementById("hdprice").innerHTML = numDogs + " Hotdog: $" + formatcurrency(hotdog_total);
+            } else {
+                var hotdog_total = price_hd * numDogs
+                document.getElementById("hdprice").innerHTML = numDogs + " Hotdogs: $" + formatcurrency(hotdog_total);
+            }
+
+            // print statement for total amount of fries and total price
+            if (numFries == null || numFries == "") {
+                document.getElementById("friesprice").innerHTML = 0 + " Fries: $" + 0;
+            } else if (numFries == 1){
+                var fries_total = price_fries * numFries
+                document.getElementById("friesprice").innerHTML = numFries + " Fry: $" + formatcurrency(fries_total);
+            } else {
+                var fries_total = price_fries * numFries
+                document.getElementById("friesprice").innerHTML = numFries + " Fries: $" + formatcurrency(fries_total);
+            }
+
+            // print statement for total amount of sodas and total price
+            if (numSoda == null || numSoda == "") {
+                document.getElementById("drinksprice").innerHTML = 0 + " Soda: $" + 0;
+            } else if (numSoda == 1) {
+                var sodas_total = price_sodas * numSoda
+                document.getElementById("drinksprice").innerHTML = numSoda + " Soda: $" + formatcurrency(sodas_total);
+            } else {
+                var sodas_total = price_sodas * numSoda
+                document.getElementById("drinksprice").innerHTML = numSoda + " Sodas: $" + formatcurrency(sodas_total);
+            }
+            
+            var subtotal = sodas_total + fries_total + hotdog_total;
+            document.getElementById("text").innerHTML = " Subtotal: $" + formatcurrency(subtotal);
+
+            // checking if eligible for discount
+            const disc_value = 0.1;
+            var discount;
+            if (subtotal >= 25) {
+                discount = subtotal * disc_value;
+                subtotal = subtotal - discount;
+
+                document.getElementById("discount").innerHTML = " Discount: $" + formatcurrency(discount);
+                document.getElementById("total with discount").innerHTML = " Subtotal with discount: $" + formatcurrency(subtotal);
+            } else {
+                document.getElementById("discount").innerHTML = " Add $" + (25 - subtotal) + " to your order to be eligible for discount";
+            }
+
+            // add tax
+            const tax = 6.25;
+            var total_tax = subtotal * (tax/100);
+            var final_total = subtotal + total_tax
+
+            document.getElementById("tax").innerHTML = " Tax: $" + formatcurrency(total_tax);
+            document.getElementById("total").innerHTML = " Total: $" + formatcurrency(final_total);
+        }
+
+        </script>
+    </body>
+</html>
